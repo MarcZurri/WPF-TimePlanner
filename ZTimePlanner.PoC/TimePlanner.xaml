@@ -15,20 +15,6 @@
     </UserControl.Resources>
     <ScrollViewer HorizontalScrollBarVisibility="Auto" VerticalScrollBarVisibility="Auto">
         <Grid x:Name="timePlanner">
-            <!--<Rectangle x:Name="rect1" Grid.Column="1" Grid.Row="2" Margin="2,2,2,2" Fill="LightGreen" Stroke="DeepSkyBlue" StrokeThickness="1" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" ></Rectangle>
-        <Rectangle Grid.Column="2" Grid.Row="3" Grid.RowSpan="2" Margin="2,2,2,2" Fill="LightBlue" Stroke="DeepSkyBlue" StrokeThickness="1" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" ></Rectangle>
-
-        -->
-            <!--<Rectangle Grid.Column="3" Grid.Row="2" Grid.RowSpan="2" Fill="LightCyan" Stroke="DeepSkyBlue" StrokeThickness="1" HorizontalAlignment="Left" VerticalAlignment="Stretch"
-                   Width="{Binding ElementName=baseRect42, Path=ActualWidth, Converter={StaticResource plannerCellWidthConverter}, ConverterParameter=0.5}"
-                   Margin="{Binding RelativeSource={RelativeSource Mode=Self}, Converter={StaticResource plannerCellMarginConverter}, ConverterParameter=0}">
-        </Rectangle>-->
-            <!--
-        <Rectangle Grid.Column="3" Grid.Row="2" Grid.RowSpan="2" Fill="LightCyan" Stroke="DeepSkyBlue" StrokeThickness="1" HorizontalAlignment="Left" VerticalAlignment="Stretch"
-                   Width="{Binding ElementName=baseRect42, Path=ActualWidth, Converter={StaticResource plannerCellWidthConverter}, ConverterParameter=0.5}">
-        </Rectangle>-->
-
         </Grid>
     </ScrollViewer>
-
 </UserControl>

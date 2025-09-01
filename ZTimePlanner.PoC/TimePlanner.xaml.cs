@@ -19,6 +19,8 @@ namespace ZTimePlanner.PoC
         private int NumberOfColumns { get; set; } = 5;
         private int NumberOfRows { get; set; } = 24;
 
+        private List<PlannerItemControl> timeEvents { get; set; }
+
         public TimePlanner()
         {
             InitializeComponent();
@@ -29,11 +31,11 @@ namespace ZTimePlanner.PoC
 
         private void TimePlanner_Loaded(object sender, RoutedEventArgs e)
         {
-            var timeEvents = this.GenerateFakeItems();
+            this.timeEvents = this.GenerateFakeItems().ToList();
             int addingColumnsIndex = this.HasRowsHeader ? 1 : 0;
             int addingRowsIndex = this.HasColumnsHeader ? 1 : 0;
 
-            foreach (var timeEvent in timeEvents)
+            foreach (var timeEvent in this.timeEvents)
             {
                 var item = (timeEvent.Item as DayTimeEvent);
                 if (item.StartHourPosition % 1 > 0)
@@ -48,11 +50,20 @@ namespace ZTimePlanner.PoC
 
                 this.AddCell(timeEvent, item.StartDayPosition + addingColumnsIndex, (int)item.StartHourPosition + addingRowsIndex, 1, (int)(item.EndHourPosition - item.StartHourPosition));
             }
+
+            this.ManageOverlappingHours();
+
+            this.timePlanner.SizeChanged += TimePlannerGrid_SizeChanged;
+        }
+
+        private void TimePlannerGrid_SizeChanged(object sender, SizeChangedEventArgs e)
+        {
+            if (e.WidthChanged)
+                this.ManageOverlappingHours();
         }
 
         private void CreateStructure()
         {
-
             this.AddColumns();
             this.AddRows();
             this.AddBackgroundRectangles();
@@ -174,8 +185,10 @@ namespace ZTimePlanner.PoC
                 new Tuple<DateTime, DateTime>(new DateTime(2025, 8, 16, 6, 30, 0), new DateTime(2025, 8, 16, 7, 30, 0)),
                 new Tuple<DateTime, DateTime>(new DateTime(2025, 8, 17, 10, 00, 0), new DateTime(2025, 8, 17, 11, 00, 0)),
                 new Tuple<DateTime, DateTime>(new DateTime(2025, 8, 17, 12, 00, 0), new DateTime(2025, 8, 17, 13, 30, 0)),
+                new Tuple<DateTime, DateTime>(new DateTime(2025, 8, 18, 8, 00, 0), new DateTime(2025, 8, 18, 10, 00, 0)),
                 new Tuple<DateTime, DateTime>(new DateTime(2025, 8, 18, 9, 00, 0), new DateTime(2025, 8, 18, 10, 00, 0)),
                 new Tuple<DateTime, DateTime>(new DateTime(2025, 8, 18, 9, 00, 0), new DateTime(2025, 8, 18, 10, 00, 0)),
+                new Tuple<DateTime, DateTime>(new DateTime(2025, 8, 18, 9, 00, 0), new DateTime(2025, 8, 18, 11, 00, 0)),
             };
 
             int firstDayPosition = dates.Min(d => d.Item1.Day);
@@ -189,6 +202,29 @@ namespace ZTimePlanner.PoC
             }));
 
             return items;
+        }
+
+        private void ManageOverlappingHours()
+        {
+            int index = 0;
+            foreach (var item in this.timeEvents.TakeLast(4))
+            {
+                item.Margin = new Thickness(0, item.Margin.Top, 0, item.Margin.Bottom);
+            }
+
+            this.timePlanner.UpdateLayout();
+
+            foreach (var item in this.timeEvents.TakeLast(4))
+            {
+                var actualWidth = this.timePlanner.ColumnDefinitions[Grid.GetColumn(item)].ActualWidth;
+                var dividedWidth = actualWidth / 4;
+
+                var marginLeft = dividedWidth * index;
+                var marginRight = actualWidth - (marginLeft + dividedWidth);
+                item.Margin = new Thickness(marginLeft, item.Margin.Top, marginRight, item.Margin.Bottom);
+
+                index++;
+            }
         }
 
         private PlannerItemControl CreatePlannerItem(DayTimeEvent dayTimeEvent)
