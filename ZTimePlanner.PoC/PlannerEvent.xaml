@@ -9,12 +9,11 @@
     <Grid HorizontalAlignment="Stretch" VerticalAlignment="Stretch"
           ToolTip="{Binding Description}">
         <Grid.RowDefinitions>
-            <RowDefinition Height="Auto"/>
-            <RowDefinition Height="*"/>
-            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="50*"/>
+            <RowDefinition Height="50*"/>
         </Grid.RowDefinitions>
-        <TextBlock x:Name="eventHeader" Grid.Row="0" Text="{Binding Header}"/>
-        <TextBlock x:Name="eventFooter" Grid.Row="2" Text="{Binding Footer}"/>
+        <TextBlock x:Name="eventHeader" Grid.Row="0" Text="{Binding Header}" VerticalAlignment="Top"/>
+        <TextBlock x:Name="eventFooter" Grid.Row="1" Text="{Binding Footer}" VerticalAlignment="Bottom"/>
 
     </Grid>
 </UserControl>

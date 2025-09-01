@@ -1,5 +1,6 @@
 ﻿using System.Windows;
 using System.Windows.Controls;
+using System.Windows.Media;
 
 namespace ZTimePlanner.PoC.PlannerElements
 {
@@ -35,7 +36,14 @@ namespace ZTimePlanner.PoC.PlannerElements
     public class PlannerItemControl : Border
     {
         public static readonly DependencyProperty ItemProperty =
-            DependencyProperty.Register("Item", typeof(object), typeof(PlannerItemControl), new PropertyMetadata(null));
+            DependencyProperty.Register("Item", typeof(object), typeof(PlannerItemControl), new PropertyMetadata(null, ItemModified));
+
+        private static void ItemModified(DependencyObject selfItem, DependencyPropertyChangedEventArgs eventArgs)
+        {
+            if (((PlannerItemControl)selfItem).ChildControl != null && eventArgs.NewValue != null)
+                ((PlannerItemControl)selfItem).ChildControl.SetValue(FrameworkElement.DataContextProperty, ((PlannerItemControl)selfItem).Item);
+        }
+
         public object Item
         {
             get { return GetValue(ItemProperty); }
@@ -47,10 +55,10 @@ namespace ZTimePlanner.PoC.PlannerElements
 
         private static void ChildCreated(DependencyObject selfItem, DependencyPropertyChangedEventArgs eventArgs)
         {
-            if (((PlannerItemControl)selfItem).ChildControl != null)
-                ((PlannerItemControl)selfItem).ChildControl.SetValue(FrameworkElement.DataContextProperty, ((PlannerItemControl)selfItem).Item);
+            //if (((PlannerItemControl)selfItem).ChildControl != null)
+            //    ((PlannerItemControl)selfItem).ChildControl.SetValue(FrameworkElement.DataContextProperty, ((PlannerItemControl)selfItem).Item);
 
-            ((PlannerItemControl)selfItem).Child = ((PlannerItemControl)selfItem).ChildControl;
+            //((PlannerItemControl)selfItem).Child = ((PlannerItemControl)selfItem).ChildControl;
         }
 
         public FrameworkElement ChildControl
@@ -59,10 +67,30 @@ namespace ZTimePlanner.PoC.PlannerElements
             set { SetValue(ChildControlProperty, value); }
         }
 
-        public PlannerItemControl()
+        private PlannerItemControl()
         {
             //this.Loaded += PlannerItemControl_Loaded;
             this.Child = this.ChildControl;
+        }
+
+        public static PlannerItemControl Create(object item, FrameworkElement childControl, Color? color = null)
+        {
+            var control = new PlannerItemControl()
+            {
+                BorderThickness = new Thickness(1),
+                HorizontalAlignment = HorizontalAlignment.Stretch,
+                VerticalAlignment = VerticalAlignment.Stretch,
+                Margin = new Thickness(2),
+                Background = color.HasValue ? new SolidColorBrush(color.Value) : Brushes.LightCyan,
+                BorderBrush = color.HasValue ? new SolidColorBrush(Color.Multiply(color.Value, 0.8f)) : Brushes.DarkCyan,
+                Item = item,
+                ChildControl = childControl
+            };
+
+            control.ChildControl.SetValue(FrameworkElement.DataContextProperty, item);
+            control.Child = control.ChildControl;
+
+            return control;
         }
 
         private void PlannerItemControl_Loaded(object sender, RoutedEventArgs e)
