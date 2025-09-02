@@ -223,6 +223,7 @@ namespace ZTimePlanner.PoC
                 var marginLeft = dividedWidth * index;
                 var marginRight = actualWidth - (marginLeft + dividedWidth);
                 item.Margin = new Thickness(marginLeft, item.Margin.Top, marginRight, item.Margin.Bottom);
+                item.MaxWidth = dividedWidth;
 
                 index++;
             }
