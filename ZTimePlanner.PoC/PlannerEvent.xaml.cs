@@ -10,10 +10,6 @@ namespace ZTimePlanner.PoC
         public PlannerEvent()
         {
             InitializeComponent();
-
-            this.DataContextChanged += (s, e) =>
-            {
-            };
         }
     }
 }

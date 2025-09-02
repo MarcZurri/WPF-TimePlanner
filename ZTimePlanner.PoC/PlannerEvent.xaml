@@ -6,14 +6,17 @@
              xmlns:local="clr-namespace:ZTimePlanner.PoC"
              mc:Ignorable="d" 
              d:DesignHeight="450" d:DesignWidth="800">
-    <Grid HorizontalAlignment="Stretch" VerticalAlignment="Stretch"
+    <Grid VerticalAlignment="Stretch"
           ToolTip="{Binding Description}">
         <Grid.RowDefinitions>
             <RowDefinition Height="50*"/>
             <RowDefinition Height="50*"/>
         </Grid.RowDefinitions>
-        <TextBlock x:Name="eventHeader" Grid.Row="0" Text="{Binding Header}" VerticalAlignment="Top"/>
-        <TextBlock x:Name="eventFooter" Grid.Row="1" Text="{Binding Footer}" VerticalAlignment="Bottom"/>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="Auto"/>
+        </Grid.ColumnDefinitions>
+        <TextBlock x:Name="eventHeader" Grid.Row="0" Grid.Column="0" Text="{Binding Header}" VerticalAlignment="Top" HorizontalAlignment="Stretch" TextTrimming="CharacterEllipsis"/>
+        <TextBlock x:Name="eventFooter" Grid.Row="1" Grid.Column="0" Text="{Binding Footer}" VerticalAlignment="Bottom" HorizontalAlignment="Stretch" TextTrimming="CharacterEllipsis"/>
 
     </Grid>
 </UserControl>

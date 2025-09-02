@@ -1,5 +1,6 @@
 ﻿using System.Windows;
 using System.Windows.Controls;
+using System.Windows.Media;
 using System.Windows.Shapes;
 using ZTimePlanner.PoC.PlannerElements;
 
@@ -181,14 +182,14 @@ namespace ZTimePlanner.PoC
             List<Tuple<DateTime, DateTime>> dates = new List<Tuple<DateTime, DateTime>>()
             {
                 new Tuple<DateTime, DateTime>(new DateTime(2025, 8, 15, 9, 0, 0), new DateTime(2025, 8, 15, 11, 30, 0)),
-                //new Tuple<DateTime, DateTime>(new DateTime(2025, 8, 15, 13, 0, 0), new DateTime(2025, 8, 15, 14, 0, 0)),
-                //new Tuple<DateTime, DateTime>(new DateTime(2025, 8, 16, 6, 30, 0), new DateTime(2025, 8, 16, 7, 30, 0)),
-                //new Tuple<DateTime, DateTime>(new DateTime(2025, 8, 17, 10, 00, 0), new DateTime(2025, 8, 17, 11, 00, 0)),
-                //new Tuple<DateTime, DateTime>(new DateTime(2025, 8, 17, 12, 00, 0), new DateTime(2025, 8, 17, 13, 30, 0)),
-                //new Tuple<DateTime, DateTime>(new DateTime(2025, 8, 18, 8, 00, 0), new DateTime(2025, 8, 18, 10, 00, 0)),
-                //new Tuple<DateTime, DateTime>(new DateTime(2025, 8, 18, 9, 00, 0), new DateTime(2025, 8, 18, 10, 00, 0)),
-                //new Tuple<DateTime, DateTime>(new DateTime(2025, 8, 18, 9, 00, 0), new DateTime(2025, 8, 18, 10, 00, 0)),
-                //new Tuple<DateTime, DateTime>(new DateTime(2025, 8, 18, 9, 00, 0), new DateTime(2025, 8, 18, 11, 00, 0)),
+                new Tuple<DateTime, DateTime>(new DateTime(2025, 8, 15, 13, 0, 0), new DateTime(2025, 8, 15, 14, 0, 0)),
+                new Tuple<DateTime, DateTime>(new DateTime(2025, 8, 16, 6, 30, 0), new DateTime(2025, 8, 16, 7, 30, 0)),
+                new Tuple<DateTime, DateTime>(new DateTime(2025, 8, 17, 10, 00, 0), new DateTime(2025, 8, 17, 11, 00, 0)),
+                new Tuple<DateTime, DateTime>(new DateTime(2025, 8, 17, 12, 00, 0), new DateTime(2025, 8, 17, 13, 30, 0)),
+                new Tuple<DateTime, DateTime>(new DateTime(2025, 8, 18, 8, 00, 0), new DateTime(2025, 8, 18, 10, 00, 0)),
+                new Tuple<DateTime, DateTime>(new DateTime(2025, 8, 18, 9, 00, 0), new DateTime(2025, 8, 18, 10, 00, 0)),
+                new Tuple<DateTime, DateTime>(new DateTime(2025, 8, 18, 9, 00, 0), new DateTime(2025, 8, 18, 10, 00, 0)),
+                new Tuple<DateTime, DateTime>(new DateTime(2025, 8, 18, 9, 00, 0), new DateTime(2025, 8, 18, 11, 00, 0)),
             };
 
             int firstDayPosition = dates.Min(d => d.Item1.Day);
@@ -206,30 +207,30 @@ namespace ZTimePlanner.PoC
 
         private void ManageOverlappingHours()
         {
-            //int index = 0;
-            //foreach (var item in this.timeEvents.TakeLast(4))
-            //{
-            //    item.Margin = new Thickness(0, item.Margin.Top, 0, item.Margin.Bottom);
-            //}
+            int index = 0;
+            foreach (var item in this.timeEvents.TakeLast(4))
+            {
+                item.Margin = new Thickness(0, item.Margin.Top, 0, item.Margin.Bottom);
+            }
 
-            //this.timePlanner.UpdateLayout();
+            this.timePlanner.UpdateLayout();
 
-            //foreach (var item in this.timeEvents.TakeLast(4))
-            //{
-            //    var actualWidth = this.timePlanner.ColumnDefinitions[Grid.GetColumn(item)].ActualWidth;
-            //    var dividedWidth = actualWidth / 4;
+            foreach (var item in this.timeEvents.TakeLast(4))
+            {
+                var actualWidth = this.timePlanner.ColumnDefinitions[Grid.GetColumn(item)].ActualWidth;
+                var dividedWidth = actualWidth / 4;
 
-            //    var marginLeft = dividedWidth * index;
-            //    var marginRight = actualWidth - (marginLeft + dividedWidth);
-            //    item.Margin = new Thickness(marginLeft, item.Margin.Top, marginRight, item.Margin.Bottom);
+                var marginLeft = dividedWidth * index;
+                var marginRight = actualWidth - (marginLeft + dividedWidth);
+                item.Margin = new Thickness(marginLeft, item.Margin.Top, marginRight, item.Margin.Bottom);
 
-            //    index++;
-            //}
+                index++;
+            }
         }
 
         private PlannerItemControl CreatePlannerItem(DayTimeEvent dayTimeEvent)
         {
-            return PlannerItemControl.Create(dayTimeEvent, new PlannerEvent());
+            return PlannerItemControl.Create(dayTimeEvent, new PlannerEvent(), Colors.DarkOrange);
         }
     }
 }

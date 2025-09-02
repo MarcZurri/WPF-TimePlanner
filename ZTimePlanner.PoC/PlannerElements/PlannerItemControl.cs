@@ -51,15 +51,7 @@ namespace ZTimePlanner.PoC.PlannerElements
         }
 
         public static readonly DependencyProperty ChildControlProperty =
-            DependencyProperty.Register("Template", typeof(FrameworkElement), typeof(PlannerItemControl), new PropertyMetadata(null, ChildCreated));
-
-        private static void ChildCreated(DependencyObject selfItem, DependencyPropertyChangedEventArgs eventArgs)
-        {
-            //if (((PlannerItemControl)selfItem).ChildControl != null)
-            //    ((PlannerItemControl)selfItem).ChildControl.SetValue(FrameworkElement.DataContextProperty, ((PlannerItemControl)selfItem).Item);
-
-            //((PlannerItemControl)selfItem).Child = ((PlannerItemControl)selfItem).ChildControl;
-        }
+            DependencyProperty.Register("Template", typeof(FrameworkElement), typeof(PlannerItemControl), new PropertyMetadata(null));
 
         public FrameworkElement ChildControl
         {
@@ -69,7 +61,6 @@ namespace ZTimePlanner.PoC.PlannerElements
 
         private PlannerItemControl()
         {
-            //this.Loaded += PlannerItemControl_Loaded;
             this.Child = this.ChildControl;
         }
 
@@ -91,10 +82,6 @@ namespace ZTimePlanner.PoC.PlannerElements
             control.Child = control.ChildControl;
 
             return control;
-        }
-
-        private void PlannerItemControl_Loaded(object sender, RoutedEventArgs e)
-        {
         }
     }
 }
