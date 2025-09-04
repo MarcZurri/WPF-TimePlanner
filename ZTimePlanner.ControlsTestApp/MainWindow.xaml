@@ -7,5 +7,12 @@
         xmlns:planner="clr-namespace:ZTimePlanner.Controls.Controls.Planner;assembly=ZTimePlanner.Controls"
         mc:Ignorable="d"
         Title="MainWindow" Height="450" Width="800">
-    <planner:Planner PlannerType="Week" />
+    <StackPanel Orientation="Vertical">
+        <StackPanel Orientation="Horizontal">
+            <RadioButton Tag="Week" GroupName="plannerTypeGroup" Checked="PlannerTypeChecked" IsChecked="True">Week</RadioButton>
+            <RadioButton Tag="WorkWeek" GroupName="plannerTypeGroup" Checked="PlannerTypeChecked">Work week</RadioButton>
+        </StackPanel>
+        <planner:Planner x:Name="planner" PlannerType="Week" />
+    </StackPanel>
+
 </Window>

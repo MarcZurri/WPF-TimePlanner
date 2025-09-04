@@ -45,7 +45,7 @@ namespace ZTimePlanner.Controls.Controls.Planner
             };
             var dateTextBlock = new TextBlock()
             {
-                Text = date.ToString("dd / MM"),
+                Text = date.ToString("dd/MM"),
                 HorizontalAlignment = HorizontalAlignment.Left,
                 VerticalAlignment = VerticalAlignment.Bottom
             };
