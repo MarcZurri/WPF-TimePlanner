@@ -25,6 +25,20 @@ namespace ZTimePlanner.Controls.Controls.Planner
 
         protected override UIElement GetRowHeaderContent(int position)
         {
+            if (this.RowHeaderTemplate != null && this.RowHeaderTemplate.HasContent)
+            {
+                FrameworkElement uIElement = (FrameworkElement)this.RowHeaderTemplate.LoadContent();
+
+                if (uIElement != null)
+                {
+                    if (this.RowHeaderItemsSource != null && this.RowHeaderItemsSource.Count() >= position)
+                        uIElement.DataContext = this.RowHeaderItemsSource.ElementAt(position - 1);
+                    else
+                        uIElement.DataContext = $"{position - 1:00}:00";
+                    return uIElement;
+                }
+            }
+
             return new TextBlock()
             {
                 Text = $"{position - 1:00}:00",

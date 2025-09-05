@@ -1,5 +1,6 @@
 ﻿using System.Windows;
 using System.Windows.Controls;
+using System.Windows.Data;
 using System.Windows.Shapes;
 
 namespace ZTimePlanner.Controls.Controls.Planner
@@ -25,6 +26,49 @@ namespace ZTimePlanner.Controls.Controls.Planner
         private List<Border> RowHeaders { get; set; } = new List<Border>();
 
         #endregion
+
+        #region Dependency Properties
+
+        public static readonly DependencyProperty RowHeaderTemplateProperty =
+            DependencyProperty.Register("RowHeaderTemplate", typeof(DataTemplate), typeof(PlannerBase), new PropertyMetadata(null, RowHeaderTemplateChanged));
+
+        private static void RowHeaderTemplateChanged(DependencyObject selfItem, DependencyPropertyChangedEventArgs eventArgs)
+        {
+            if (eventArgs.NewValue != null && eventArgs.NewValue != eventArgs.OldValue)
+                ((PlannerBase)selfItem).RefreshRowHeaders();
+        }
+
+        public DataTemplate RowHeaderTemplate
+        {
+            get { return (DataTemplate)GetValue(RowHeaderTemplateProperty); }
+            set { SetValue(RowHeaderTemplateProperty, value); }
+        }
+
+        public static readonly DependencyProperty RowHeaderItemsSourceProperty =
+            DependencyProperty.Register("RowHeaderItemsSource", typeof(IEnumerable<object>), typeof(PlannerBase), new PropertyMetadata(null, RowHeaderItemsSourceChanged));
+
+        private static void RowHeaderItemsSourceChanged(DependencyObject selfItem, DependencyPropertyChangedEventArgs eventArgs)
+        {
+            if (eventArgs.NewValue != null && eventArgs.NewValue != eventArgs.OldValue)
+                ((PlannerBase)selfItem).RefreshRowHeaders();
+        }
+
+        public IEnumerable<object> RowHeaderItemsSource
+        {
+            get { return (IEnumerable<object>)GetValue(RowHeaderItemsSourceProperty); }
+            set { SetValue(RowHeaderItemsSourceProperty, value); }
+        }
+
+        #endregion
+
+        internal PlannerBase()
+        {
+            Binding plannerRowHeaderTemplateBinding = new Binding("RowHeaderTemplate") { RelativeSource = new RelativeSource(RelativeSourceMode.FindAncestor, typeof(Planner), 1) };
+            this.SetBinding(RowHeaderTemplateProperty, plannerRowHeaderTemplateBinding);
+
+            Binding plannerRowHeaderItemsSourceBinding = new Binding("RowHeaderItemsSource") { RelativeSource = new RelativeSource(RelativeSourceMode.FindAncestor, typeof(Planner), 1) };
+            this.SetBinding(RowHeaderItemsSourceProperty, plannerRowHeaderItemsSourceBinding);
+        }
 
         protected override void OnInitialized(EventArgs e)
         {
@@ -165,6 +209,15 @@ namespace ZTimePlanner.Controls.Controls.Planner
             {
                 int position = int.Parse(item.Name.Split('_')[1]);
                 item.Child = this.GetColumnHeaderContent(position);
+            }
+        }
+
+        private void RefreshRowHeaders()
+        {
+            foreach (var item in RowHeaders)
+            {
+                int position = int.Parse(item.Name.Split('_')[1]);
+                item.Child = this.GetRowHeaderContent(position);
             }
         }
     }

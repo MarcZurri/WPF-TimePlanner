@@ -13,9 +13,9 @@ namespace ZTimePlanner.Controls.Controls.Planner
         #region Public Properties
 
         public static readonly DependencyProperty PlannerTypeProperty =
-            DependencyProperty.Register("PlannerType", typeof(PlannerTypes), typeof(Planner), new PropertyMetadata(PlannerTypes.Week, PlannerTypeModified));
+            DependencyProperty.Register("PlannerType", typeof(PlannerTypes), typeof(Planner), new PropertyMetadata(PlannerTypes.Week, PlannerTypeChanged));
 
-        private static void PlannerTypeModified(DependencyObject selfItem, DependencyPropertyChangedEventArgs eventArgs)
+        private static void PlannerTypeChanged(DependencyObject selfItem, DependencyPropertyChangedEventArgs eventArgs)
         {
             if (eventArgs.NewValue != null && eventArgs.NewValue != eventArgs.OldValue)
                 ((Planner)selfItem).CreatePlanner();
@@ -28,9 +28,9 @@ namespace ZTimePlanner.Controls.Controls.Planner
         }
 
         public static readonly DependencyProperty FocusDayProperty =
-            DependencyProperty.Register("FocusDay", typeof(DateTime), typeof(Planner), new PropertyMetadata(DateTime.Now, FocusDayModified));
+            DependencyProperty.Register("FocusDay", typeof(DateTime), typeof(Planner), new PropertyMetadata(DateTime.Now, FocusDayChanged));
 
-        private static void FocusDayModified(DependencyObject selfItem, DependencyPropertyChangedEventArgs eventArgs)
+        private static void FocusDayChanged(DependencyObject selfItem, DependencyPropertyChangedEventArgs eventArgs)
         {
             if (((Planner)selfItem).CurrentPlanner != null)
                 ((Planner)selfItem).CurrentPlanner?.SetFocusDay(((Planner)selfItem).FocusDay);
@@ -40,6 +40,46 @@ namespace ZTimePlanner.Controls.Controls.Planner
         {
             get { return (DateTime)GetValue(FocusDayProperty); }
             set { SetValue(FocusDayProperty, value); }
+        }
+
+        public static readonly DependencyProperty DisableInnerScrollProperty =
+            DependencyProperty.Register("DisableInnerScroll", typeof(bool), typeof(Planner), new PropertyMetadata(false, DisableInnerScrollChanged));
+
+        private static void DisableInnerScrollChanged(DependencyObject selfItem, DependencyPropertyChangedEventArgs eventArgs)
+        {
+            if (((Planner)selfItem).scrollPlanner != null)
+            {
+                ((Planner)selfItem).scrollPlanner.VerticalScrollBarVisibility = (bool)eventArgs.NewValue ? ScrollBarVisibility.Disabled : ScrollBarVisibility.Auto;
+                ((Planner)selfItem).scrollPlanner.HorizontalScrollBarVisibility = (bool)eventArgs.NewValue ? ScrollBarVisibility.Disabled : ScrollBarVisibility.Auto;
+            }
+        }
+
+        public bool DisableInnerScroll
+        {
+            get { return (bool)GetValue(DisableInnerScrollProperty); }
+            set { SetValue(DisableInnerScrollProperty, value); }
+        }
+
+        #endregion
+
+        #region PlannerBase Dependency Properties
+
+        public static readonly DependencyProperty RowHeaderTemplateProperty =
+            DependencyProperty.Register("RowHeaderTemplate", typeof(DataTemplate), typeof(Planner), new PropertyMetadata(null));
+
+        public DataTemplate RowHeaderTemplate
+        {
+            get { return (DataTemplate)GetValue(RowHeaderTemplateProperty); }
+            set { SetValue(RowHeaderTemplateProperty, value); }
+        }
+
+        public static readonly DependencyProperty RowHeaderItemsSourceProperty =
+            DependencyProperty.Register("RowHeaderItemsSource", typeof(IEnumerable<object>), typeof(Planner), new PropertyMetadata(null));
+
+        public IEnumerable<object> RowHeaderItemsSource
+        {
+            get { return (IEnumerable<object>)GetValue(RowHeaderItemsSourceProperty); }
+            set { SetValue(RowHeaderItemsSourceProperty, value); }
         }
 
         #endregion
