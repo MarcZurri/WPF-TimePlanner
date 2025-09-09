@@ -20,14 +20,14 @@
             <RadioButton Tag="WorkWeek" GroupName="plannerTypeGroup" Checked="PlannerTypeChecked" Margin="0,0,10,0">Work week</RadioButton>
         </StackPanel>
         <!--<ScrollViewer Grid.Row="1" VerticalScrollBarVisibility="Auto" HorizontalScrollBarVisibility="Auto">-->
-        <planner:Planner Grid.Row="1" x:Name="planner" PlannerType="Week" DisableInnerScroll="False" >
-            <planner:Planner.RowHeaderTemplate>
-                <DataTemplate>
+        <planner:Planner Grid.Row="1" x:Name="planner" PlannerType="Month" DisableInnerScroll="False" >
+            <!--<planner:Planner.RowHeaderTemplate>
+                <DataTemplate>s
                     <Border Background="LightSalmon" BorderBrush="Salmon" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" BorderThickness="1">
                         <TextBlock Text="{Binding .}" VerticalAlignment="Center" HorizontalAlignment="Center" FontWeight="Medium"/>
                     </Border>
                 </DataTemplate>
-            </planner:Planner.RowHeaderTemplate>
+            </planner:Planner.RowHeaderTemplate>-->
         </planner:Planner>
         <!--</ScrollViewer>-->
     </Grid>

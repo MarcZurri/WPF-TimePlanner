@@ -98,7 +98,8 @@ namespace ZTimePlanner.Controls.Controls.Planner
 
         private void Planner_Loaded(object sender, RoutedEventArgs e)
         {
-            this.CreatePlanner();
+            if (this.PlannerType == PlannerTypes.Week)
+                this.CreatePlanner();
         }
 
         private void CreatePlanner()

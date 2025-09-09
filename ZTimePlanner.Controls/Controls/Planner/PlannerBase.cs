@@ -89,6 +89,8 @@ namespace ZTimePlanner.Controls.Controls.Planner
 
         protected void CreateStructure()
         {
+            this.Children?.Clear();
+
             this.AddColumns();
             this.AddRows();
             this.AddBackgroundRectangles();
@@ -96,7 +98,9 @@ namespace ZTimePlanner.Controls.Controls.Planner
 
         private void AddColumns()
         {
-            if (this.ShowColumnsHeader)
+            this.ColumnDefinitions.Clear();
+
+            if (this.ShowRowsHeader)
                 this.ColumnDefinitions.Add(new ColumnDefinition() { Width = new GridLength(0, GridUnitType.Star), MinWidth = this.MinColumnWidth, MaxWidth = 200 });
 
             for (int i = 0; i < this.NumberOfColumns; i++)
@@ -108,7 +112,9 @@ namespace ZTimePlanner.Controls.Controls.Planner
 
         private void AddRows()
         {
-            if (this.ShowRowsHeader)
+            this.RowDefinitions.Clear();
+
+            if (this.ShowColumnsHeader)
                 this.RowDefinitions.Add(new RowDefinition() { Height = new GridLength(this.RowHeight) });
 
             for (int i = 0; i < this.NumberOfRows; i++)
@@ -149,8 +155,10 @@ namespace ZTimePlanner.Controls.Controls.Planner
         {
             if (this.ShowColumnsHeader)
             {
+                int addingColumnsIndex = this.ShowRowsHeader ? 1 : 0;
                 this.ColumnHeaders.Clear();
-                for (int columnIndex = 1; columnIndex < this.NumberOfColumns + 1; columnIndex++)
+
+                for (int columnIndex = 0; columnIndex < this.NumberOfColumns; columnIndex++)
                 {
                     string cellName = $"columnHeader_{columnIndex}";
                     var content = this.GetColumnHeaderContent(columnIndex);
@@ -166,14 +174,16 @@ namespace ZTimePlanner.Controls.Controls.Planner
                     };
 
                     this.ColumnHeaders.Add(border);
-                    this.AddCell(border, columnIndex, 0);
+                    this.AddCell(border, columnIndex + addingColumnsIndex, 0);
                 }
             }
 
             if (this.ShowRowsHeader)
             {
+                int addingRowsIndex = this.ShowColumnsHeader ? 1 : 0;
                 this.RowHeaders.Clear();
-                for (int rowIndex = 1; rowIndex < this.NumberOfRows + 1; rowIndex++)
+
+                for (int rowIndex = 0; rowIndex < this.NumberOfRows; rowIndex++)
                 {
                     string cellName = $"rowHeader_{rowIndex}";
                     var content = this.GetRowHeaderContent(rowIndex);
@@ -189,7 +199,7 @@ namespace ZTimePlanner.Controls.Controls.Planner
                     };
 
                     this.RowHeaders.Add(border);
-                    this.AddCell(border, 0, rowIndex);
+                    this.AddCell(border, 0, rowIndex + addingRowsIndex);
                 }
             }
         }

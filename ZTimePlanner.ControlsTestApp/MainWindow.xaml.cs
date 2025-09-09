@@ -16,7 +16,7 @@ namespace ZTimePlanner.ControlsTestApp
         {
             InitializeComponent();
 
-            this.planner.RowHeaderItemsSource = this.RowHeaders;
+            //this.planner.RowHeaderItemsSource = this.RowHeaders;
         }
 
         private void PlannerTypeChecked(object sender, RoutedEventArgs e)

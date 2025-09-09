@@ -32,16 +32,16 @@ namespace ZTimePlanner.Controls.Controls.Planner
                 if (uIElement != null)
                 {
                     if (this.RowHeaderItemsSource != null && this.RowHeaderItemsSource.Count() >= position)
-                        uIElement.DataContext = this.RowHeaderItemsSource.ElementAt(position - 1);
+                        uIElement.DataContext = this.RowHeaderItemsSource.ElementAt(position);
                     else
-                        uIElement.DataContext = $"{position - 1:00}:00";
+                        uIElement.DataContext = $"{position:00}:00";
                     return uIElement;
                 }
             }
 
             return new TextBlock()
             {
-                Text = $"{position - 1:00}:00",
+                Text = $"{position:00}:00",
                 HorizontalAlignment = HorizontalAlignment.Center,
                 VerticalAlignment = VerticalAlignment.Center
             };
@@ -49,7 +49,7 @@ namespace ZTimePlanner.Controls.Controls.Planner
 
         protected override UIElement GetColumnHeaderContent(int position)
         {
-            var date = this.CurrentPeriodStartDate.AddDays(position - 1);
+            var date = this.CurrentPeriodStartDate.AddDays(position);
             string dayName = CultureInfo.CurrentCulture.DateTimeFormat.DayNames[(int)date.DayOfWeek];
             var dayNameTextBlock = new TextBlock()
             {

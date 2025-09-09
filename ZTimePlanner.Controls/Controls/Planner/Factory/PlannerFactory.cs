@@ -10,6 +10,7 @@ namespace ZTimePlanner.Controls.Controls.Planner.Factory
             {
                 PlannerTypes.Week => new PlannerWeek(),
                 PlannerTypes.WorkWeek => new PlannerWorkWeek(),
+                PlannerTypes.Month => new PlannerMonth(),
                 _ => throw new NotImplementedException(),
             };
         }
