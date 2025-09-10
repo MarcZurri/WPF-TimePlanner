@@ -18,6 +18,7 @@
         <StackPanel Grid.Row="0" Orientation="Horizontal" Margin="15,15,0,20">
             <RadioButton Tag="Week" GroupName="plannerTypeGroup" Checked="PlannerTypeChecked" IsChecked="True" Margin="0,0,10,0">Week</RadioButton>
             <RadioButton Tag="WorkWeek" GroupName="plannerTypeGroup" Checked="PlannerTypeChecked" Margin="0,0,10,0">Work week</RadioButton>
+            <RadioButton Tag="Month" GroupName="plannerTypeGroup" Checked="PlannerTypeChecked" Margin="0,0,10,0">Month</RadioButton>
         </StackPanel>
         <!--<ScrollViewer Grid.Row="1" VerticalScrollBarVisibility="Auto" HorizontalScrollBarVisibility="Auto">-->
         <planner:Planner Grid.Row="1" x:Name="planner" PlannerType="Month" DisableInnerScroll="False" >

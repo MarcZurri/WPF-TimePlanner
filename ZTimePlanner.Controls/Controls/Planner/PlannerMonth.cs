@@ -8,6 +8,8 @@ namespace ZTimePlanner.Controls.Controls.Planner
     {
         protected override double MinColumnWidth => 100;
         protected override double RowHeight => 80;
+        protected override RowDefinition? RowDefinition => new RowDefinition() { Height = new GridLength(1, GridUnitType.Star), MinHeight = this.RowHeight };
+        protected override double HeaderRowHeight => 30;
         protected override int NumberOfColumns => 7;
         protected override int NumberOfRows => this.numberOfRows;
 
@@ -60,6 +62,38 @@ namespace ZTimePlanner.Controls.Controls.Planner
                 VerticalAlignment = VerticalAlignment.Top
             };
             return dayNameTextBlock;
+        }
+
+        protected override UIElement GetContentCellBackground(int columnIndex, int rowIndex)
+        {
+            Border border = new Border()
+            {
+                Background = System.Windows.Media.Brushes.Transparent,
+                BorderBrush = System.Windows.Media.Brushes.DarkGray,
+                BorderThickness = new Thickness(1),
+                HorizontalAlignment = HorizontalAlignment.Stretch,
+                VerticalAlignment = VerticalAlignment.Stretch,
+            };
+
+            Grid grid = new Grid();
+            grid.RowDefinitions.Add(new RowDefinition() { Height = GridLength.Auto });
+            grid.RowDefinitions.Add(new RowDefinition() { Height = new GridLength(1, GridUnitType.Star) });
+            grid.ColumnDefinitions.Add(new ColumnDefinition() { Width = new GridLength(1, GridUnitType.Star) });
+            border.Child = grid;
+
+            DateTime date = this.CurrentPeriodStartDatePrinted.AddDays(rowIndex * 7 + columnIndex);
+            string text = date.Day == 1 ? $"{date.Day} {CultureInfo.CurrentCulture.DateTimeFormat.AbbreviatedMonthNames[date.Month - 1]}" : date.Day.ToString();
+            TextBlock textBlock = new TextBlock()
+            {
+                Text = text,
+                HorizontalAlignment = HorizontalAlignment.Left,
+                VerticalAlignment = VerticalAlignment.Top,
+                Margin = new Thickness(2)
+            };
+            grid.Children.Add(textBlock);
+            Grid.SetRow(textBlock, 0);
+
+            return border;
         }
     }
 }

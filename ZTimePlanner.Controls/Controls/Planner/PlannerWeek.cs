@@ -8,6 +8,7 @@ namespace ZTimePlanner.Controls.Controls.Planner
     {
         protected override double MinColumnWidth => 100;
         protected override double RowHeight => 50;
+        protected override double HeaderRowHeight => this.RowHeight;
         protected override int NumberOfColumns => 7;
         protected override int NumberOfRows => 24;
 

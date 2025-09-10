@@ -18,6 +18,8 @@ namespace ZTimePlanner.Controls.Controls.Planner
 
         protected abstract double MinColumnWidth { get; }
         protected abstract double RowHeight { get; }
+        protected abstract double HeaderRowHeight { get; }
+        protected virtual RowDefinition? RowDefinition => null;
 
         protected abstract int NumberOfColumns { get; }
         protected abstract int NumberOfRows { get; }
@@ -115,11 +117,11 @@ namespace ZTimePlanner.Controls.Controls.Planner
             this.RowDefinitions.Clear();
 
             if (this.ShowColumnsHeader)
-                this.RowDefinitions.Add(new RowDefinition() { Height = new GridLength(this.RowHeight) });
+                this.RowDefinitions.Add(new RowDefinition() { Height = new GridLength(this.HeaderRowHeight) });
 
             for (int i = 0; i < this.NumberOfRows; i++)
             {
-                var row = new RowDefinition() { Height = new GridLength(this.RowHeight) };
+                var row = this.RowDefinition ?? new RowDefinition() { Height = new GridLength(this.RowHeight) };
                 this.RowDefinitions.Add(row);
             }
         }
@@ -136,19 +138,24 @@ namespace ZTimePlanner.Controls.Controls.Planner
                 for (int rowIndex = 0; rowIndex < this.NumberOfRows; rowIndex++)
                 {
                     string cellName = $"Cell_{columnIndex}_{rowIndex}";
-                    var rectangle = new Rectangle()
-                    {
-                        Name = cellName,
-                        Fill = System.Windows.Media.Brushes.Transparent,
-                        Stroke = System.Windows.Media.Brushes.DarkGray,
-                        StrokeThickness = 1,
-                        HorizontalAlignment = HorizontalAlignment.Stretch,
-                        VerticalAlignment = VerticalAlignment.Stretch,
-                    };
+                    var uiElement = this.GetContentCellBackground(columnIndex, rowIndex);
+                    uiElement.SetValue(FrameworkElement.NameProperty, cellName);
 
-                    this.AddCell(rectangle, columnIndex + addingColumnsIndex, rowIndex + addingRowsIndex);
+                    this.AddCell(uiElement, columnIndex + addingColumnsIndex, rowIndex + addingRowsIndex);
                 }
             }
+        }
+
+        protected virtual UIElement GetContentCellBackground(int columnIndex, int rowIndex)
+        {
+            return new Rectangle()
+            {
+                Fill = System.Windows.Media.Brushes.Transparent,
+                Stroke = System.Windows.Media.Brushes.DarkGray,
+                StrokeThickness = 1,
+                HorizontalAlignment = HorizontalAlignment.Stretch,
+                VerticalAlignment = VerticalAlignment.Stretch,
+            };
         }
 
         private void AddHeaderCells()
