@@ -4,9 +4,13 @@
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:ZTimePlanner.ControlsTestApp"
+        xmlns:converters="clr-namespace:ZTimePlanner.ControlsTestApp.Converters"
         xmlns:planner="clr-namespace:ZTimePlanner.Controls.Controls.Planner;assembly=ZTimePlanner.Controls"
         mc:Ignorable="d"
         Title="MainWindow" Height="450" Width="800">
+    <Window.Resources>
+        <converters:PlannerTypeBooleanConverter x:Key="plannerTypeBooleanConverter" />
+    </Window.Resources>
     <Grid>
         <Grid.RowDefinitions>
             <RowDefinition Height="Auto" />
@@ -16,9 +20,9 @@
             <ColumnDefinition Width="*" />
         </Grid.ColumnDefinitions>
         <StackPanel Grid.Row="0" Orientation="Horizontal" Margin="15,15,0,20">
-            <RadioButton Tag="Week" GroupName="plannerTypeGroup" Checked="PlannerTypeChecked" IsChecked="True" Margin="0,0,10,0">Week</RadioButton>
-            <RadioButton Tag="WorkWeek" GroupName="plannerTypeGroup" Checked="PlannerTypeChecked" Margin="0,0,10,0">Work week</RadioButton>
-            <RadioButton Tag="Month" GroupName="plannerTypeGroup" Checked="PlannerTypeChecked" Margin="0,0,10,0">Month</RadioButton>
+            <RadioButton Checked="PlannerTypeChecked" IsChecked="{Binding PlannerType, Converter={StaticResource plannerTypeBooleanConverter}, ConverterParameter=Week}" Margin="0,0,10,0">Week</RadioButton>
+            <RadioButton Checked="PlannerTypeChecked" IsChecked="{Binding PlannerType, Converter={StaticResource plannerTypeBooleanConverter}, ConverterParameter=WorkWeek}" Margin="0,0,10,0">Work week</RadioButton>
+            <RadioButton Checked="PlannerTypeChecked" IsChecked="{Binding PlannerType, Converter={StaticResource plannerTypeBooleanConverter}, ConverterParameter=Month}" Margin="0,0,10,0">Month</RadioButton>
         </StackPanel>
         <!--<ScrollViewer Grid.Row="1" VerticalScrollBarVisibility="Auto" HorizontalScrollBarVisibility="Auto">-->
         <planner:Planner Grid.Row="1" x:Name="planner" PlannerType="Month" DisableInnerScroll="False" >
